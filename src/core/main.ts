@@ -34,7 +34,7 @@ const result = {
 interface InteractionHandlerRoleOptions {
     readonly clown: Role;
     readonly katsap: Role;
-    readonly user: Role;
+    readonly uaUser: Role;
     readonly ruUser: Role;
     readonly bump: Role;
 }
@@ -59,7 +59,7 @@ export default class InteractionHandler {
             const [value] = interaction.values;
             if (
                 value !== undefined &&
-                ["clown", "katsap", "user", "ruUser"].includes(value)
+                ["clown", "katsap", "uaUser", "ruUser"].includes(value)
             ) {
                 await interaction.update({
                     content: result[value as keyof typeof result],
@@ -69,7 +69,7 @@ export default class InteractionHandler {
                     this.options[value as keyof InteractionHandlerRoleOptions];
                 void member.roles.add(role);
                 if (role.id === process.env["russian"]!) {
-                    void member.roles.add(this.options.user);
+                    void member.roles.add(this.options.uaUser);
                 }
             } else {
                 void this.questions(interaction);
@@ -134,7 +134,7 @@ export default class InteractionHandler {
             default: {
                 row.addComponents(
                     menu
-                        .setCustomId(value === "ua" ? "user" : "ruUser")
+                        .setCustomId(value === "ua" ? "uaUser" : "ruUser")
                         .addOptions(answers.nine)
                 );
                 break;

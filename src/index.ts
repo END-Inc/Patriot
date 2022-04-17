@@ -16,8 +16,8 @@ client.once("ready", () => {
     const roles = {
         clown: guild.roles.cache.get(process.env["clown"]!)!,
         katsap: guild.roles.cache.get(process.env["katsap"]!)!,
-        user: guild.roles.cache.get(process.env["user"]!)!,
-        ruUser: guild.roles.cache.get(process.env["ruUser"]!)!,
+        uaUser: guild.roles.cache.get(process.env["user"]!)!,
+        ruUser: guild.roles.cache.get(process.env["russian"]!)!,
         bump: guild.roles.cache.get(process.env["bump"]!)!,
     };
     const Handler = new InteractionHandler(roles);
