@@ -1,6 +1,6 @@
 {
     "name": "patriot",
-    "version": "1.0.0",
+    "version": "1.2.1",
     "scripts": {
         "build": "tsc -p tsconfig.json",
         "build:dev": "tsc -p tsconfig.json -w",
@@ -22,8 +22,6 @@
     },
     "homepage": "https://github.com/END-Inc/Patriot#readme",
     "dependencies": {
-        "@discordjs/rest": "^0.3.0",
-        "discord-api-types": "^0.31.1",
         "discord.js": "^13.6.0",
         "dotenv": "^16.0.0",
         "eslint": "^8.13.0",
