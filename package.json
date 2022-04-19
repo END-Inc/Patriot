@@ -1,6 +1,6 @@
 {
     "name": "patriot",
-    "version": "1.2.2",
+    "version": "1.4.3",
     "scripts": {
         "build": "tsc -p tsconfig.json",
         "build:dev": "tsc -p tsconfig.json -w",

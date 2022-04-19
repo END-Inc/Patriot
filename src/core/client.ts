@@ -15,7 +15,7 @@ export default class Client extends DiscordClient {
         });
     }
 
-    public async start(config: Readonly<ClientConfig>): Promise<void> {
-        await super.login(config.token);
+    public async start(token: string): Promise<void> {
+        await super.login(token);
     }
 }
