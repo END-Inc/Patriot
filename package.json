@@ -5,6 +5,7 @@
         "build": "tsc -p tsconfig.json",
         "build:dev": "tsc -p tsconfig.json -w",
         "start:dev": "nodemon build/index.js",
+        "postinstall": "npm run build",
         "start": "node build/index.js",
         "lint": "eslint src --fix"
     },
