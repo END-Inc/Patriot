@@ -4,7 +4,7 @@
     "scripts": {
         "build": "tsc -p tsconfig.json",
         "build:dev": "tsc -p tsconfig.json -w",
-        "start:dev": "nodemon build/index.js",
+        "start:dev": "nodemon build/index.js -p $PORT",
         "postinstall": "npm run build",
         "start": "node build/index.js",
         "lint": "eslint src --fix"
