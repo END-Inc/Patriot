@@ -1,114 +1,117 @@
-const uaAnswers = {
-    one: [
+import type { AnswersI, QuestionsI } from "./language";
+
+const uaAnswers: AnswersI = {
+    two: [
         {
             label: "Так",
-            value: "ua",
+            value: "ukrainian",
         },
         {
             label: "Ні",
-            value: "clown",
-        },
-    ],
-
-    two: [
-        {
-            label: "Український",
-            value: "ua",
-        },
-        {
-            label: "Російський",
-            value: "clown",
+            value: "wrong",
         },
     ],
 
     three: [
         {
-            label: "Позитивно",
-            value: "clown",
+            label: "Український",
+            value: "ukrainian",
         },
         {
-            label: "Негативно",
-            value: "ua",
+            label: "Російський",
+            value: "wrong",
         },
     ],
 
     four: [
         {
-            label: "Так",
-            value: "clown",
+            label: "Позитивно",
+            value: "wrong",
         },
         {
-            label: "Ні",
-            value: "ua",
+            label: "Негативно",
+            value: "ukrainian",
         },
     ],
 
     five: [
         {
             label: "Так",
-            value: "ua",
+            value: "wrong",
         },
         {
             label: "Ні",
-            value: "clown",
+            value: "ukrainian",
         },
     ],
 
     six: [
         {
             label: "Так",
-            value: "ua",
+            value: "ukrainian",
         },
         {
             label: "Ні",
-            value: "clown",
+            value: "wrong",
         },
     ],
 
     seven: [
         {
-            label: "Російські військові",
-            value: "ua",
+            label: "Так",
+            value: "ukrainian",
         },
         {
-            label: "Українські військові",
-            value: "clown",
+            label: "Ні",
+            value: "wrong",
         },
     ],
 
     eight: [
         {
-            label: "Так",
-            value: "ua",
+            label: "Російські військові",
+            value: "ukrainian",
         },
         {
-            label: "Ні",
-            value: "clown",
+            label: "Українські військові",
+            value: "wrong",
         },
     ],
 
     nine: [
         {
+            label: "Так",
+            value: "ukrainian",
+        },
+        {
+            label: "Ні",
+            value: "wrong",
+        },
+    ],
+
+    ten: [
+        {
             label: "Негативно",
-            value: "uaUser",
+            value: "ukrainian",
         },
         {
             label: "Позитивно",
-            value: "clown",
+            value: "wrong",
         },
     ],
 };
 
-const uaQuestions = {
-    national: "**2. Ти згідний з правилами серверу?**",
-    one: "**3. Чий Крим?**",
-    two: "**4. Як відносишся до путіна?**",
-    three: "**5. Підтримуєш незалежність `Л/ДНР` ?**",
-    four: "**6. Чи був геноцид в Бучі, Ірпені, Гостомелі?**",
-    five: "**7. Армія РФ була в Донбасі 8 років тому?**",
-    six: "**8. Хто влаштував геноцид в Бучі?**",
-    seven: "**9. Чи спонсувала Росія сепаратистів `Л/ДНР` ?**",
-    eight: "**10. Як ти відносишся до війни?**",
+const uaQuestions: QuestionsI = {
+    two: "**2. Ти згідний з правилами серверу?**",
+    three: "**3. Чий Крим?**",
+    four: "**4. Як відносишся до путіна?**",
+    five: "**5. Підтримуєш незалежність `Л/ДНР` ?**",
+    six: "**6. Чи був геноцид в Бучі, Ірпені, Гостомелі?**",
+    seven: "**7. Армія РФ була в Донбасі 8 років тому?**",
+    eight: "**8. Хто влаштував геноцид в Бучі?**",
+    nine: "**9. Чи спонсувала Росія сепаратистів `Л/ДНР` ?**",
+    ten: "**10. Як ти відносишся до війни?**",
+    final: "Ти пройшов тест!",
 };
 
 export { uaQuestions, uaAnswers };

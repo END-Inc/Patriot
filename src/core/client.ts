@@ -1,8 +1,5 @@
 import { Client as DiscordClient, Intents, Options } from "discord.js";
 
-export interface ClientConfig {
-    token: string;
-}
 export default class Client extends DiscordClient {
     public constructor() {
         super({

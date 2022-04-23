@@ -1,5 +1,4 @@
-import type { Message } from "discord.js";
-import { MessageActionRow, MessageButton } from "discord.js";
+import { type Message, MessageActionRow, MessageButton } from "discord.js";
 
 export default function messageCreate(message: Message) {
     if (
@@ -9,7 +8,7 @@ export default function messageCreate(message: Message) {
         const row = new MessageActionRow();
         row.addComponents(
             new MessageButton()
-                .setCustomId("Test")
+                .setCustomId("Questions")
                 .setLabel("Получить доступ")
                 .setStyle("DANGER"),
             new MessageButton()

@@ -28,13 +28,6 @@
          {
             "ignoreInferredTypes":true
          }
-      ],
-      "import/no-unused-modules":[
-         0,
-         {
-            "unusedExports":false
-         }
-      ],
-      "putout/putout":0
+      ]
    }
 }

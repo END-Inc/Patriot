@@ -1,56 +1,47 @@
-const ruAnswers = {
-    one: [
+import type { AnswersI, QuestionsI } from "./language";
+
+const ruAnswers: AnswersI = {
+    two: [
         {
             label: "Да",
             value: "other",
         },
         {
             label: "Нет",
-            value: "katsap",
+            value: "wrong",
         },
     ],
 
-    two: [
+    three: [
         {
             label: "Украинский",
             value: "other",
         },
         {
             label: "Российский",
-            value: "katsap",
+            value: "wrong",
         },
     ],
 
-    three: [
+    four: [
         {
             label: "Негативно",
             value: "other",
         },
         {
             label: "Позитивно",
-            value: "katsap",
-        },
-    ],
-
-    four: [
-        {
-            label: "Нет",
-            value: "other",
-        },
-        {
-            label: "Да",
-            value: "katsap",
+            value: "wrong",
         },
     ],
 
     five: [
         {
-            label: "Да",
+            label: "Нет",
             value: "other",
         },
         {
-            label: "Нет",
-            value: "katsap",
+            label: "Да",
+            value: "wrong",
         },
     ],
 
@@ -61,53 +52,65 @@ const ruAnswers = {
         },
         {
             label: "Нет",
-            value: "katsap",
+            value: "wrong",
         },
     ],
 
     seven: [
-        {
-            label: "Руссике военные",
-            value: "other",
-        },
-        {
-            label: "Украинские военные",
-            value: "katsap",
-        },
-    ],
-
-    eight: [
         {
             label: "Да",
             value: "other",
         },
         {
             label: "Нет",
-            value: "katsap",
+            value: "wrong",
+        },
+    ],
+
+    eight: [
+        {
+            label: "Руссике военные",
+            value: "other",
+        },
+        {
+            label: "Украинские военные",
+            value: "wrong",
         },
     ],
 
     nine: [
         {
+            label: "Да",
+            value: "other",
+        },
+        {
+            label: "Нет",
+            value: "wrong",
+        },
+    ],
+
+    ten: [
+        {
             label: "Негативно",
-            value: "ruUser",
+            value: "final",
         },
         {
             label: "Позитивно",
-            value: "katsap",
+            value: "wrong",
         },
     ],
 };
 
-const ruQuestions = {
-    national: "**2. Ты согласен с правилами сервера?**",
-    one: "**3. Чей Крым?**",
-    two: "**4. Как относишься к путину?**",
-    three: "**5. Поддерживаешь независимость `Л/ДНР` ?**",
-    four: "**6. Был ли геноцид в Буче, Ирпене, Гостомеле?**",
-    five: "**7. Армия РФ была в Донбассе 8 лет назад?**",
-    six: "**8. Кто устроил геноцид в Буче?**",
-    seven: "**9. Спонсировала ли Россия сепаратистов `Л/ДНР`?**",
-    eight: "**10. Как ты относишься к войне?**",
+const ruQuestions: QuestionsI = {
+    two: "**2. Ты согласен с правилами сервера?**",
+    three: "**3. Чей Крым?**",
+    four: "**4. Как относишься к путину?**",
+    five: "**5. Поддерживаешь независимость `Л/ДНР` ?**",
+    six: "**6. Был ли геноцид в Буче, Ирпене, Гостомеле?**",
+    seven: "**7. Армия РФ была в Донбассе 8 лет назад?**",
+    eight: "**8. Кто устроил геноцид в Буче?**",
+    nine: "**9. Спонсировала ли Россия сепаратистов `Л/ДНР`?**",
+    ten: "**10. Как ты относишься к войне?**",
+    final: "Ты прошёл тест",
 };
 export { ruQuestions, ruAnswers };

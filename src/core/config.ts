@@ -10,9 +10,9 @@ switch (process.env.NODE_ENV) {
             path: resolve(path, ".env.development"),
         });
         break;
-    case "test":
+    case "production":
         configDotenv({
-            path: resolve(path, ".env.test"),
+            path: resolve(path, ".env.production"),
         });
         break;
 
