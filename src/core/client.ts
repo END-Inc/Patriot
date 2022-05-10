@@ -4,9 +4,14 @@ export default class Client extends DiscordClient {
     public constructor() {
         super({
             intents: new Intents(32_767),
-            messageCacheLifetime: 200,
-            messageSweepInterval: 200,
             restTimeOffset: 0,
+
+            sweepers: {
+                messages: {
+                    interval: 200,
+                    lifetime: 200,
+                },
+            },
 
             makeCache: Options.cacheEverything(),
         });

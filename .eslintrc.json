@@ -24,7 +24,7 @@
    },
    "rules":{
       "@typescript-eslint/prefer-readonly-parameter-types":[
-         "error",
+         "warn",
          {
             "ignoreInferredTypes":true
          }

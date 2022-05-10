@@ -1,6 +1,6 @@
 {
     "name": "patriot",
-    "version": "2.0.2",
+    "version": "2.2.7",
     "scripts": {
         "build": "tsc -p tsconfig.json",
         "build:dev": "tsc -p tsconfig.json -w",
@@ -30,9 +30,9 @@
         "nodemon": "^2.0.15"
     },
     "devDependencies": {
-        "@babel/core": "^7.17.9",
+        "@babel/core": "^7.17.10",
         "eslint-config-hardcore": "^24.5.0",
-        "graphql": "^15.3.0",
-        "typescript": "^4.5.4"
+        "graphql": "^15.0.0",
+        "typescript": "^4.6.4"
     }
 }

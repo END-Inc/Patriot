@@ -1,8 +1,6 @@
-/* eslint-disable @typescript-eslint/prefer-readonly-parameter-types */
-/* eslint-disable sonarjs/elseif-without-else */
 import {
+    type GuildMemberRoleManager,
     type ButtonInteraction,
-    type GuildMember,
     type Interaction,
     type Role,
     type SelectMenuInteraction,
@@ -19,6 +17,22 @@ import {
     options,
 } from "../languages/language";
 
+const subscribeButtonStrings = {
+    news: {
+        dHaveRole: "Поздравляю, вы подписались на новости сервера",
+        hasRole: "Вы отписались от новостей сервера",
+    },
+
+    notification: {
+        dHaveRole: "Поздравляю, вы подписались на уведомления",
+        hasRole: "Вы отписались от уведомлений",
+    },
+
+    bump: {
+        dHaveRole: "Поздравляю, вы подписались на бампы",
+        hasRole: "Вы отписались от бампов",
+    },
+};
 interface InteractionHandlerRoleOptions {
     readonly user: Role;
     readonly clown: Role;
@@ -38,8 +52,11 @@ interface InteractionHandlerRoleOptions {
     readonly azerbaijani: Role;
     readonly armenian: Role;
     readonly kazakh: Role;
+    readonly news: Role;
+    readonly notification: Role;
 }
-
+type SubscribeButton = keyof InteractionHandlerRoleOptions &
+    keyof typeof subscribeButtonStrings;
 export default class InteractionHandler {
     private readonly roles: InteractionHandlerRoleOptions;
 
@@ -47,37 +64,36 @@ export default class InteractionHandler {
         this.roles = roles;
     }
 
-    private buttonManager(interaction: ButtonInteraction, member: GuildMember) {
-        switch (interaction.customId) {
-            case "Questions":
-                void this.nationalButtonInteraction(interaction);
-                break;
-
-            case "Bumps":
-                void this.bumpButtonInteraction(interaction, member);
-                break;
-
-            // No Default
+    private buttonManager(
+        interaction: ButtonInteraction,
+        rolesManager: GuildMemberRoleManager
+    ) {
+        if (interaction.customId === "Questions") {
+            void this.nationalButtonInteraction(interaction, rolesManager);
+        } else {
+            void this.subscribeButtonInteraction(
+                interaction,
+                rolesManager,
+                interaction.customId as SubscribeButton
+            );
         }
     }
 
-    // eslint-disable-next-line max-statements
     private selectMenuManager(
         interaction: SelectMenuInteraction,
-        member: GuildMember
+        rolesManager: GuildMemberRoleManager
     ) {
-        const [value] = interaction.values;
-        const { answers, questions } = this.getQuestionsLanguage(value);
-        const index = customIds.indexOf(interaction.customId as Answer) + 1;
-        const answerId = customIds[index] as Answer;
+        const { answers, index, answerId, content } = this.getSelectMenuProps(
+            interaction.customId,
+            interaction.values[0]
+        );
         let components: MessageActionRow[] | never[] = [];
-        const content = questions[answerId as keyof typeof questions];
-        this.rolesManager(interaction.values, member);
-        if (index !== -1) {
+        this.rolesManager(interaction.values, rolesManager);
+        if (index >= 0) {
             if (index < 9) {
                 components = this.questionsManager(answers, answerId);
             } else {
-                void member.roles.add(this.roles.user);
+                void rolesManager.add(this.roles.user);
             }
             void interaction.update({
                 content,
@@ -86,19 +102,32 @@ export default class InteractionHandler {
         }
     }
 
+    private getSelectMenuProps(customId: string, value?: string) {
+        const { answers, questions } = this.getQuestionsLanguage(
+            value ?? "ukrainian"
+        );
+        const index = customIds.indexOf(customId as Answer) + 1;
+        const answerId = customIds[index] as Answer;
+        const content = questions[answerId as keyof typeof questions];
+        return {
+            answers,
+            index,
+            answerId,
+            content,
+        };
+    }
+
     private wrongManager(
         interaction: SelectMenuInteraction,
-        member: GuildMember
+        rolesManager: GuildMemberRoleManager
     ) {
-        let role = this.roles.clown;
-        let content = "**Ты клоун!**";
-        if (member.roles.cache.has(process.env.russian)) {
-            role = this.roles.katsap;
-            content = "**Ты кацап**!";
-        } else if (member.roles.cache.has(process.env.ukrainian)) {
-            content = "**Ти сепаратист та клоун**!";
-        }
-        void member.roles.add(role);
+        const isKatsap = rolesManager.cache.has(process.env.russian);
+        const isClown = rolesManager.cache.has(process.env.ukrainian);
+        const role = isKatsap ? this.roles.katsap : this.roles.clown;
+        const content = isClown
+            ? "**Ти сепаратист, та клоун**!"
+            : "**Ты кацап**!";
+        void rolesManager.add(role);
         void interaction.update({
             content,
             components: [],
@@ -126,51 +155,83 @@ export default class InteractionHandler {
         return [row];
     }
 
-    private rolesManager(values: readonly string[], member: GuildMember) {
+    private rolesManager(
+        values: readonly string[],
+        rolesManager: GuildMemberRoleManager
+    ) {
         values.forEach((value) => {
             if (Object.keys(this.roles).includes(value)) {
                 const role =
                     this.roles[value as keyof InteractionHandlerRoleOptions];
-                void member.roles.add(role);
+                void rolesManager.add(role);
             }
         });
     }
 
-    public startInteraction(interaction: Interaction, member: GuildMember) {
+    public startInteraction(
+        interaction: Interaction,
+        rolesManager: GuildMemberRoleManager
+    ) {
         if (interaction.isButton()) {
-            this.buttonManager(interaction, member);
+            this.buttonManager(interaction, rolesManager);
         } else if (interaction.isSelectMenu()) {
             if (interaction.values[0] === "wrong") {
-                this.wrongManager(interaction, member);
+                this.wrongManager(interaction, rolesManager);
                 return;
             }
-            this.selectMenuManager(interaction, member);
+            this.selectMenuManager(interaction, rolesManager);
+        } else {
+            console.log("Smth wrong");
         }
     }
 
-    private async nationalButtonInteraction(interaction: ButtonInteraction) {
-        const row = new MessageActionRow().addComponents(
-            new MessageSelectMenu()
-                .setCustomId("one")
-                .setMinValues(1)
-                .setMaxValues(3)
-                .setPlaceholder("Nothing selected")
-                .addOptions(options)
+    private async nationalButtonInteraction(
+        interaction: ButtonInteraction,
+        rolesManager: GuildMemberRoleManager
+    ) {
+        const components = [];
+        const { clown, user, katsap } = process.env;
+        const nationalRoles: string[] = [clown, user, katsap];
+        const hasRole = rolesManager.cache.find((role) =>
+            nationalRoles.includes(role.id)
         );
+        let content = "You have already completed this test";
+        if (hasRole === undefined) {
+            content = "1. **You?**";
+            components.push(
+                new MessageActionRow().addComponents(
+                    new MessageSelectMenu()
+                        .setCustomId("one")
+                        .setMinValues(1)
+                        .setMaxValues(3)
+                        .setPlaceholder("Nothing selected")
+                        .addOptions(options)
+                )
+            );
+        }
         await interaction.reply({
-            components: [row],
+            components,
             ephemeral: true,
-            content: "1. **You?**",
+            content,
         });
     }
 
-    private async bumpButtonInteraction(
+    private async subscribeButtonInteraction(
         interaction: ButtonInteraction,
-        member: GuildMember
+        rolesManager: GuildMemberRoleManager,
+        type: SubscribeButton
     ) {
-        await member.roles.add(this.roles.bump);
+        const role = this.roles[type];
+        const hasRole = rolesManager.cache.has(role.id);
+        const content =
+            subscribeButtonStrings[type][hasRole ? "hasRole" : "dHaveRole"];
+        if (hasRole) {
+            void rolesManager.remove(role);
+        } else {
+            void rolesManager.add(role);
+        }
         await interaction.reply({
-            content: "Поздравляю, вы подписались на бампы",
+            content,
             ephemeral: true,
             components: [],
         });
